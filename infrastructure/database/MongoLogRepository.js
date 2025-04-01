@@ -11,29 +11,30 @@ const logSchema = mongoose.Schema({
     required: true,
   },
   status: String,
-  timeStamp: {
+  createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
+    index: true,
   },
 });
 
-logSchema.pre('save', function () {
-  if (!this.timeStamp) {
-    this.timeStamp = Date.now();
-  }
-});
+logSchema.index({ userId: 1, action: 1, createdAt: -1 });
 
 const Log = mongoose.model('Log', logSchema);
 
 /******************************************************/
 class MongoLogRepository extends LogRepository {
-  static async save(log) {
+  async save(log) {
     return await Log.create(log);
   }
 
-  static async find(filter) {
-    return await Log.find(filter).sort({ timestamp: -1 }).limit(10);
+  async find(filter) {
+    const logs = await Log.find(filter);
+    return logs;
+  }
+  getlogModel() {
+    return Log;
   }
 }
 
-module.exports = MongoLogRepository;
+module.exports = new MongoLogRepository();

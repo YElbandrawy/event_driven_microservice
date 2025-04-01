@@ -13,9 +13,9 @@ const connectMongo = async () => {
     await mongoose.connect(db_uri, { dbName: 'Logs' }).then((con) => {
       console.log('DataBase connection Established!');
     });
-    return true;
   } catch (error) {
-    return false;
+    console.error('Database connection failed:', error);
+    setTimeout(connectMongo, 5000);
   }
 };
 

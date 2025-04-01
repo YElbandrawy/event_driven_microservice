@@ -10,10 +10,21 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 //////////////////Connect DataBase//////////////////
-const dbStatus = connectMongo();
-if (dbStatus) consumer().catch(console.error);
+// const dbStatus = connectMongo();
+// if (dbStatus) consumer().catch(console.error);
+
+(async () => {
+  try {
+    await connectMongo();
+    await consumer();
+    console.log('Microservice started successfully');
+  } catch (error) {
+    console.error('Error during startup:', error);
+    process.exit(1);
+  }
+})();
 //////////////////Start the server//////////////////
-const port = process.env.PORT || 3000;
+const port = 3000;
 const server = app.listen(port, () => {
   console.log(`The server is up and running on port ${port}`);
 });
