@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  PORT: '3000'
+  DATABASE: 'mongodb+srv://Uosef:<db_password>@cluster0.9lg8qha.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+  DATABASE_USERNAME: 'Uosef'
+  DATABASE_PASSWORD: '245AKOKWHogHh8pq'
